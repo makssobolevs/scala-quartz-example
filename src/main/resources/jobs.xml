@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<job-scheduling-data version="2.0" xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd">
+
+<schedule>
+        <job>
+            <name>example-job-2</name>
+            <group>DEFAULT</group>
+            <description>The job description</description>
+            <job-class>com.makssobolevs.quartz.jobs.ExampleJob2</job-class>
+            <job-data-map>
+                <entry>
+                    <key>testKey</key>
+                    <value>testValue</value>
+                </entry>
+            </job-data-map>
+        </job>
+
+        <trigger>
+            <simple>
+                <name>job1</name>
+                <group>DEFAULT</group>
+                <job-name>example-job-2</job-name>
+                <job-group>DEFAULT</job-group>
+                <repeat-count>-1</repeat-count>
+                <repeat-interval>10000</repeat-interval>
+            </simple>
+        </trigger>
+    </schedule>
+</job-scheduling-data>
