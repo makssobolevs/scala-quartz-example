@@ -24,7 +24,6 @@ import scala.util.Success
 object ScalaQuartzApp {
 
   def main(args: Array[String]): Unit = {
-
     val config = ConfigFactory.load().getConfig("quartz")
 
     val properties = new Properties()
@@ -33,12 +32,6 @@ object ScalaQuartzApp {
     val schedulerFactory = new StdSchedulerFactory(properties)
     val scheduler = schedulerFactory.getScheduler
 
-    // alternative to xml configuration
-    scheduleJob1(scheduler)
-
-    scheduler.start()
-
-
 
     val rootBehavior = Behaviors.setup[Nothing] { context =>
       val routes = new JobRoutes(scheduler)(context.system)
@@ -46,7 +39,13 @@ object ScalaQuartzApp {
 
       Behaviors.empty
     }
-    ActorSystem[Nothing](rootBehavior, "HelloAkkaHttpServer")
+    val actorSystem = ActorSystem[Nothing](rootBehavior, "HelloAkkaHttpServer")
+
+
+    scheduler.setJobFactory(new CustomJobFactory(actorSystem))
+    // alternative to xml configuration
+    scheduleJob1(scheduler)
+    scheduler.start()
   }
 
 
